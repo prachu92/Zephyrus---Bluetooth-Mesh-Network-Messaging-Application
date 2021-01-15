@@ -30,7 +30,6 @@
         android:id="@+id/login_btn"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:background="#fafafa"
-        android:text="Login"
-        />
+        android:background="@color/teal_700"
+        android:text="Login" />
 </LinearLayout>
