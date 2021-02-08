@@ -1,0 +1,91 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools">
+    <!--    xmlns:android="http://schemas.android.com/apk/res/android" android:layout_width="match_parent"-->
+    <!--    android:layout_height="match_parent">-->
+    <data>
+        <import type="android.view.View"/>
+
+    </data>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="vertical"
+        android:paddingBottom="@dimen/activity_vertical_margin"
+        android:paddingLeft="@dimen/activity_horizontal_margin"
+        android:paddingRight="@dimen/activity_horizontal_margin"
+        android:paddingTop="@dimen/activity_vertical_margin"
+        tools:context=".client.ClientActivity">
+
+        <TextView
+            android:id="@+id/client_device_info_text_view"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"/>
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="scanning"
+            android:textAlignment="center"/>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal">
+
+            <Button
+                android:id="@+id/stop_scanning_button"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:text="stop"/>
+
+            <Button
+                android:id="@+id/start_scanning_button"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:text="start"/>
+
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical">
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="ble_servers"
+                android:textAlignment="center"/>
+
+            <LinearLayout
+                android:id="@+id/server_list_container"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical"/>
+
+            <Button
+                android:id="@+id/disconnect_button"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="disconnect"/>
+
+        </LinearLayout>
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="messages"
+            android:textAlignment="center"/>
+
+        <include
+            android:id="@+id/view_client_log"
+            layout="@layout/view_log"/>
+
+    </LinearLayout>
+
+</layout>

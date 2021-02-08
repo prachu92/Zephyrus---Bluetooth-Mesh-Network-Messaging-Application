@@ -1,9 +1,12 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     package="com.example.zephyrus">
-<!--    <uses-feature android:name="android.hardware.fingerprint"-->
-<!--        android:required="false"/>-->
-   <!--permission for biometric -->
+    <!--    <uses-feature android:name="android.hardware.fingerprint"-->
+    <!--        android:required="false"/>-->
+    <!--permission for biometric -->
+    <uses-permission android:name="android.permission.BLUETOOTH" />
+    <uses-permission android:name="android.permission.BLUETOOTH_ADMIN" />
+    <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION"/>
     <uses-permission
         android:name="android.permission.USE_BIOMETRIC" />
     <application
@@ -26,6 +29,14 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
+        <activity
+            android:name="com.example.zephyrus.server.ServerActivity"
+            android:label="bluetooth_server"/>
+
+        <activity
+            android:name="com.example.zephyrus.client.ClientActivity"
+            android:label="bluetooth_client"
+            android:windowSoftInputMode="stateHidden"/>
     </application>
 
 </manifest>
