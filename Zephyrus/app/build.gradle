@@ -46,4 +46,6 @@ dependencies {
     androidTestImplementation 'androidx.test.espresso:espresso-core:3.3.0'
     //app dependencies for biometric sensor
     implementation 'androidx.biometric:biometric:1.0.1'
+    //For @Nullable -- Utils Files
+    compile 'com.android.support:support-annotations:+'
 }
