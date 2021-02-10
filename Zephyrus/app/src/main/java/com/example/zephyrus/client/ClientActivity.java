@@ -5,9 +5,8 @@ import android.annotation.SuppressLint;
 import android.bluetooth.BluetoothAdapter;
 import android.bluetooth.BluetoothDevice;
 import android.bluetooth.BluetoothGatt;
-import android.bluetooth.BluetoothGattCallback;
+import android.bluetooth.BluetoothGattCharacteristic;
 import android.bluetooth.BluetoothManager;
-import android.bluetooth.BluetoothProfile;
 import android.bluetooth.le.BluetoothLeScanner;
 import android.bluetooth.le.ScanCallback;
 import android.bluetooth.le.ScanFilter;
@@ -32,6 +31,8 @@ import android.view.View;
 import com.example.zephyrus.R;
 import com.example.zephyrus.databinding.ActivityClientBinding;
 import com.example.zephyrus.databinding.ViewGattServerBinding;
+import com.example.zephyrus.Util.BluetoothUtils;
+import com.example.zephyrus.Util.StringUtils;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -42,7 +43,7 @@ import java.util.Map;
 import static  com.example.zephyrus.Constants.SCAN_PERIOD;
 import static  com.example.zephyrus.Constants.SERVICE_UUID;
 
-public class ClientActivity extends AppCompatActivity {
+public class ClientActivity extends AppCompatActivity implements GattClientActionListener{
 
     private static final String TAG = "ClientActivity";
 
@@ -57,6 +58,8 @@ public class ClientActivity extends AppCompatActivity {
     private Map<String, BluetoothDevice> mScanResults;
 
     private boolean mConnected;
+    private boolean mTimeInitialized;
+    private boolean mEchoInitialized;
     private BluetoothAdapter mBluetoothAdapter;
     private BluetoothLeScanner mBluetoothLeScanner;
     private ScanCallback mScanCallback;
@@ -81,6 +84,7 @@ public class ClientActivity extends AppCompatActivity {
         mBinding.clientDeviceInfoTextView.setText(deviceInfo);
         mBinding.startScanningButton.setOnClickListener(v -> startScan());
         mBinding.stopScanningButton.setOnClickListener(v -> stopScan());
+        mBinding.sendMessageButton.setOnClickListener(v -> sendMessage());
         mBinding.disconnectButton.setOnClickListener(v -> disconnectGattServer());
         mBinding.viewClientLog.clearLogButton.setOnClickListener(v -> clearLogs());
     }
@@ -196,50 +200,6 @@ public class ClientActivity extends AppCompatActivity {
         log("Requested user enable Location. Try starting the scan again.");
     }
 
-    // Gatt connection
-
-    private void connectDevice(BluetoothDevice device) {
-        log("Connecting to " + device.getAddress());
-        GattClientCallback gattClientCallback = new GattClientCallback();
-        mGatt = device.connectGatt(this, false, gattClientCallback);
-    }
-
-    // Logging
-
-    private void clearLogs() {
-        mLogHandler.post(() -> mBinding.viewClientLog.logTextView.setText(""));
-    }
-
-    // Gat Client Actions
-
-    public void log(String msg) {
-        Log.d(TAG, msg);
-        mLogHandler.post(() -> {
-            mBinding.viewClientLog.logTextView.append(msg + "\n");
-            mBinding.viewClientLog.logScrollView.post(() -> mBinding.viewClientLog.logScrollView.fullScroll(View.FOCUS_DOWN));
-        });
-    }
-
-    public void logError(String msg) {
-        log("Error: " + msg);
-    }
-
-    public void setConnected(boolean connected) {
-        mConnected = connected;
-    }
-
-    public void disconnectGattServer() {
-        log("Closing Gatt connection");
-        clearLogs();
-        mConnected = false;
-        if (mGatt != null) {
-            mGatt.disconnect();
-            mGatt.close();
-        }
-    }
-
-    // Callbacks
-
     private class BtleScanCallback extends ScanCallback {
 
         private Map<String, BluetoothDevice> mScanResults;
@@ -272,31 +232,96 @@ public class ClientActivity extends AppCompatActivity {
         }
     }
 
-    private class GattClientCallback extends BluetoothGattCallback {
-        @Override
-        public void onConnectionStateChange(BluetoothGatt gatt, int status, int newState) {
-            super.onConnectionStateChange(gatt, status, newState);
-            log("onConnectionStateChange newState: " + newState);
+    // Gatt connection
 
-            if (status == BluetoothGatt.GATT_FAILURE) {
-                logError("Connection Gatt failure status " + status);
-                disconnectGattServer();
-                return;
-            } else if (status != BluetoothGatt.GATT_SUCCESS) {
-                // handle anything not SUCCESS as failure
-                logError("Connection not GATT sucess status " + status);
-                disconnectGattServer();
-                return;
-            }
+    private void connectDevice(BluetoothDevice device) {
+        log("Connecting to " + device.getAddress());
+        GattClientCallback gattClientCallback = new GattClientCallback(this);
+        mGatt = device.connectGatt(this, false, gattClientCallback);
+    }
 
-            if (newState == BluetoothProfile.STATE_CONNECTED) {
-                log("Connected to device " + gatt.getDevice().getAddress());
-                setConnected(true);
-                gatt.discoverServices();
-            } else if (newState == BluetoothProfile.STATE_DISCONNECTED) {
-                log("Disconnected from device");
-                disconnectGattServer();
-            }
+    private void sendMessage() {
+        if (!mConnected || !mEchoInitialized) {
+            return;
+        }
+
+        BluetoothGattCharacteristic characteristic = BluetoothUtils.findEchoCharacteristic(mGatt);
+        if (characteristic == null) {
+            logError("Unable to find echo characteristic.");
+            disconnectGattServer();
+            return;
+        }
+
+        String message = mBinding.messageEditText.getText().toString();
+        log("Sending message: " + message);
+
+        byte[] messageBytes = StringUtils.bytesFromString(message);
+        if (messageBytes.length == 0) {
+            logError("Unable to convert message to bytes");
+            return;
+        }
+
+        characteristic.setValue(messageBytes);
+        boolean success = mGatt.writeCharacteristic(characteristic);
+        if (success) {
+            log("Wrote: " + StringUtils.byteArrayInHexFormat(messageBytes));
+        } else {
+            logError("Failed to write data");
+        }
+    }
+    private void requestTimestamp() {
+        if (!mConnected || !mTimeInitialized) {
+            return;
+        }
+
+        BluetoothGattCharacteristic characteristic = BluetoothUtils.findTimeCharacteristic(mGatt);
+        if (characteristic == null) {
+            logError("Unable to find time charactaristic");
+            return;
+        }
+
+        mGatt.readCharacteristic(characteristic);
+    }
+    // Logging
+
+    private void clearLogs() {
+        mLogHandler.post(() -> mBinding.viewClientLog.logTextView.setText(""));
+    }
+
+    // Gat Client Actions
+@Override
+    public void log(String msg) {
+        Log.d(TAG, msg);
+        mLogHandler.post(() -> {
+            mBinding.viewClientLog.logTextView.append(msg + "\n");
+            mBinding.viewClientLog.logScrollView.post(() -> mBinding.viewClientLog.logScrollView.fullScroll(View.FOCUS_DOWN));
+        });
+    }
+@Override
+    public void logError(String msg) {
+        log("Error: " + msg);
+    }
+    @Override
+    public void setConnected(boolean connected) {
+        mConnected = connected;
+    }
+    @Override
+    public void initializeTime() {
+        mTimeInitialized = true;
+    }
+
+    @Override
+    public void initializeEcho() {
+        mEchoInitialized = true;
+    }
+    @Override
+    public void disconnectGattServer() {
+        log("Closing Gatt connection");
+        clearLogs();
+        mConnected = false;
+        if (mGatt != null) {
+            mGatt.disconnect();
+            mGatt.close();
         }
     }
 }
