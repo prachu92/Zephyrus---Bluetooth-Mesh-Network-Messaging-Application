@@ -31,8 +31,8 @@ import android.view.View;
 import com.example.zephyrus.R;
 import com.example.zephyrus.databinding.ActivityClientBinding;
 import com.example.zephyrus.databinding.ViewGattServerBinding;
-import com.example.zephyrus.Util.BluetoothUtils;
-import com.example.zephyrus.Util.StringUtils;
+import com.example.zephyrus.util.BluetoothUtils;
+import com.example.zephyrus.util.StringUtils;
 
 import java.util.ArrayList;
 import java.util.HashMap;

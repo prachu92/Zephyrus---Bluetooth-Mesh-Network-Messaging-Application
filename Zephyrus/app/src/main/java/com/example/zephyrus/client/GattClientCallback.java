@@ -6,8 +6,8 @@ import android.bluetooth.BluetoothGattCharacteristic;
 import android.bluetooth.BluetoothGattDescriptor;
 import android.bluetooth.BluetoothProfile;
 
-import com.example.zephyrus.Util.BluetoothUtils;
-import com.example.zephyrus.Util.StringUtils;
+import com.example.zephyrus.util.BluetoothUtils;
+import com.example.zephyrus.util.StringUtils;
 
 import java.util.List;
 

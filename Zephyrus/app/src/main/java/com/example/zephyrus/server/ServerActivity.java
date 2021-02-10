@@ -3,6 +3,8 @@ package com.example.zephyrus.server;
 import android.annotation.SuppressLint;
 import android.bluetooth.BluetoothAdapter;
 import android.bluetooth.BluetoothDevice;
+import android.bluetooth.BluetoothGattCharacteristic;
+import android.bluetooth.BluetoothGattDescriptor;
 import android.bluetooth.BluetoothGattServer;
 import android.bluetooth.BluetoothGattServerCallback;
 import android.bluetooth.BluetoothGattService;
@@ -23,16 +25,26 @@ import android.view.View;
 
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.databinding.DataBindingUtil;
+import com.example.zephyrus.util.BluetoothUtils;
+import com.example.zephyrus.util.StringUtils;
 
 import com.example.zephyrus.R;
 import com.example.zephyrus.databinding.ActivityServerBinding;
 
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Date;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
+import java.util.UUID;
 
 import static com.example.zephyrus.Constants.SERVICE_UUID;
+import static com.example.zephyrus.Constants.CHARACTERISTIC_ECHO_UUID;
+import static com.example.zephyrus.Constants.CHARACTERISTIC_TIME_UUID;
+import static com.example.zephyrus.Constants.CLIENT_CONFIGURATION_DESCRIPTOR_UUID;
 
-public class ServerActivity extends AppCompatActivity {
+public class ServerActivity extends AppCompatActivity implements GattServerActionListener {
 
     private static final String TAG = "ServerActivity";
 
@@ -41,14 +53,14 @@ public class ServerActivity extends AppCompatActivity {
     private Handler mHandler;
     private Handler mLogHandler;
     private List<BluetoothDevice> mDevices;
+    private Map<String, byte[]> mClientConfigurations;
 
     private BluetoothGattServer mGattServer;
     private BluetoothManager mBluetoothManager;
     private BluetoothAdapter mBluetoothAdapter;
     private BluetoothLeAdvertiser mBluetoothLeAdvertiser;
 
-
-    //LifeCycle
+    // Lifecycle
 
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -56,11 +68,13 @@ public class ServerActivity extends AppCompatActivity {
         mHandler = new Handler();
         mLogHandler = new Handler(Looper.getMainLooper());
         mDevices = new ArrayList<>();
+        mClientConfigurations = new HashMap<>();
 
         mBluetoothManager = (BluetoothManager) getSystemService(BLUETOOTH_SERVICE);
         mBluetoothAdapter = mBluetoothManager.getAdapter();
 
         mBinding = DataBindingUtil.setContentView(this, R.layout.activity_server);
+        mBinding.sendTimestampButton.setOnClickListener(v -> sendTimestamp());
         mBinding.restartServerButton.setOnClickListener(v -> restartServer());
         mBinding.viewServerLog.clearLogButton.setOnClickListener(v -> clearLogs());
     }
@@ -95,11 +109,13 @@ public class ServerActivity extends AppCompatActivity {
         }
 
         mBluetoothLeAdvertiser = mBluetoothAdapter.getBluetoothLeAdvertiser();
-        GattServerCallback gattServerCallback = new GattServerCallback();
+        GattServerCallback gattServerCallback = new GattServerCallback(this);
         mGattServer = mBluetoothManager.openGattServer(this, gattServerCallback);
 
         @SuppressLint("HardwareIds")
-        String deviceInfo = "Device Info" + "\nName: " + mBluetoothAdapter.getName() + "\nAddress: " + mBluetoothAdapter.getAddress();
+        String deviceInfo = "Device Info"
+                + "\nName: "+ mBluetoothAdapter.getName()
+                + "\nAddress: " + mBluetoothAdapter.getAddress();
         mBinding.serverDeviceInfoTextView.setText(deviceInfo);
 
         setupServer();
@@ -118,6 +134,33 @@ public class ServerActivity extends AppCompatActivity {
     private void setupServer() {
         BluetoothGattService service = new BluetoothGattService(SERVICE_UUID,
                 BluetoothGattService.SERVICE_TYPE_PRIMARY);
+
+        // Write characteristic
+        BluetoothGattCharacteristic writeCharacteristic = new BluetoothGattCharacteristic(
+                CHARACTERISTIC_ECHO_UUID,
+                BluetoothGattCharacteristic.PROPERTY_WRITE,
+                // Somehow this is not necessary, the client can still enable notifications
+//                        | BluetoothGattCharacteristic.PROPERTY_NOTIFY,
+                BluetoothGattCharacteristic.PERMISSION_WRITE);
+
+        // Characteristic with Descriptor
+        BluetoothGattCharacteristic notifyCharacteristic = new BluetoothGattCharacteristic(
+                CHARACTERISTIC_TIME_UUID,
+                // Somehow this is not necessary, the client can still enable notifications
+//                BluetoothGattCharacteristic.PROPERTY_NOTIFY,
+                0,
+                0);
+
+        BluetoothGattDescriptor clientConfigurationDescriptor = new BluetoothGattDescriptor(
+                CLIENT_CONFIGURATION_DESCRIPTOR_UUID,
+                BluetoothGattDescriptor.PERMISSION_READ | BluetoothGattDescriptor.PERMISSION_WRITE);
+        clientConfigurationDescriptor.setValue(BluetoothGattDescriptor.DISABLE_NOTIFICATION_VALUE);
+
+        notifyCharacteristic.addDescriptor(clientConfigurationDescriptor);
+
+        service.addCharacteristic(writeCharacteristic);
+        service.addCharacteristic(notifyCharacteristic);
+
         mGattServer.addService(service);
     }
 
@@ -141,14 +184,16 @@ public class ServerActivity extends AppCompatActivity {
             return;
         }
 
-        AdvertiseSettings settings = new AdvertiseSettings.Builder().setAdvertiseMode(AdvertiseSettings.ADVERTISE_MODE_BALANCED)
+        AdvertiseSettings settings = new AdvertiseSettings.Builder()
+                .setAdvertiseMode(AdvertiseSettings.ADVERTISE_MODE_BALANCED)
                 .setConnectable(true)
                 .setTimeout(0)
                 .setTxPowerLevel(AdvertiseSettings.ADVERTISE_TX_POWER_LOW)
                 .build();
 
         ParcelUuid parcelUuid = new ParcelUuid(SERVICE_UUID);
-        AdvertiseData data = new AdvertiseData.Builder().setIncludeDeviceName(true)
+        AdvertiseData data = new AdvertiseData.Builder()
+                .setIncludeDeviceName(true)
                 .addServiceUuid(parcelUuid)
                 .build();
 
@@ -173,14 +218,71 @@ public class ServerActivity extends AppCompatActivity {
         }
     };
 
+    // Notifications
+
+    private void notifyCharacteristicTime(byte[] value) {
+        notifyCharacteristic(value, CHARACTERISTIC_TIME_UUID);
+    }
+
+    private void notifyCharacteristic(byte[] value, UUID uuid) {
+        BluetoothGattService service = mGattServer.getService(SERVICE_UUID);
+        BluetoothGattCharacteristic characteristic = service.getCharacteristic(uuid);
+        log("Notifying characteristic " + characteristic.getUuid().toString()
+                + ", new value: " + StringUtils.byteArrayInHexFormat(value));
+
+        characteristic.setValue(value);
+        // Indications require confirmation, notifications do not
+        boolean confirm = BluetoothUtils.requiresConfirmation(characteristic);
+        for (BluetoothDevice device : mDevices) {
+            if (clientEnabledNotifications(device, characteristic)) {
+                mGattServer.notifyCharacteristicChanged(device, characteristic, confirm);
+            }
+        }
+    }
+
+    private boolean clientEnabledNotifications(BluetoothDevice device, BluetoothGattCharacteristic characteristic) {
+        List<BluetoothGattDescriptor> descriptorList = characteristic.getDescriptors();
+        BluetoothGattDescriptor descriptor = BluetoothUtils.findClientConfigurationDescriptor(descriptorList);
+        if (descriptor == null) {
+            // There is no client configuration descriptor, treat as true
+            return true;
+        }
+        String deviceAddress = device.getAddress();
+        byte[] clientConfiguration = mClientConfigurations.get(deviceAddress);
+        if (clientConfiguration == null) {
+            // Descriptor has not been set
+            return false;
+        }
+
+        byte[] notificationEnabled = BluetoothGattDescriptor.ENABLE_NOTIFICATION_VALUE;
+        return clientConfiguration.length == notificationEnabled.length
+                && (clientConfiguration[0] & notificationEnabled[0]) == notificationEnabled[0]
+                && (clientConfiguration[1] & notificationEnabled[1]) == notificationEnabled[1];
+    }
+
+    // Characteristic operations
+
+    private byte[] getTimestampBytes() {
+        @SuppressLint("SimpleDateFormat")
+        SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+        String timestamp = dateFormat.format(new Date());
+        return StringUtils.bytesFromString(timestamp);
+    }
+
+    private void sendTimestamp() {
+        byte[] timestampBytes = getTimestampBytes();
+        notifyCharacteristicTime(timestampBytes);
+    }
+
     // Logging
 
     private void clearLogs() {
         mLogHandler.post(() -> mBinding.viewServerLog.logTextView.setText(""));
     }
 
-    // Gatt Server Actions
+    // Gatt Server Action Listener
 
+    @Override
     public void log(String msg) {
         Log.d(TAG, msg);
         mLogHandler.post(() -> {
@@ -189,32 +291,35 @@ public class ServerActivity extends AppCompatActivity {
         });
     }
 
+    @Override
     public void addDevice(BluetoothDevice device) {
         log("Deviced added: " + device.getAddress());
         mHandler.post(() -> mDevices.add(device));
     }
 
+    @Override
     public void removeDevice(BluetoothDevice device) {
         log("Deviced removed: " + device.getAddress());
         mHandler.post(() -> {
             mDevices.remove(device);
+            String deviceAddress = device.getAddress();
+            mClientConfigurations.remove(deviceAddress);
         });
     }
 
-    // Gatt Callback
+    @Override
+    public void addClientConfiguration(BluetoothDevice device, byte[] value) {
+        String deviceAddress = device.getAddress();
+        mClientConfigurations.put(deviceAddress, value);
+    }
 
-    private class GattServerCallback extends BluetoothGattServerCallback {
-        @Override
-        public void onConnectionStateChange(BluetoothDevice device, int status, int newState) {
-            super.onConnectionStateChange(device, status, newState);
-            log("onConnectionStateChange " + device.getAddress() + "\nstatus " + status + "\nnewState " + newState);
+    @Override
+    public void sendResponse(BluetoothDevice device, int requestId, int status, int offset, byte[] value) {
+        mGattServer.sendResponse(device, requestId, status, 0, null);
+    }
 
-            if (newState == BluetoothProfile.STATE_CONNECTED) {
-                addDevice(device);
-            } else if (newState == BluetoothProfile.STATE_DISCONNECTED) {
-                removeDevice(device);
-            }
-        }
+    @Override
+    public void notifyCharacteristicEcho(byte[] value) {
+        notifyCharacteristic(value, CHARACTERISTIC_ECHO_UUID);
     }
 }
-

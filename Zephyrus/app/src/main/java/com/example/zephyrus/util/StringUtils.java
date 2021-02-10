@@ -1,7 +1,9 @@
-package com.example.zephyrus.Util;
+package com.example.zephyrus.util;
 
-import android.support.annotation.Nullable;
+
 import android.util.Log;
+
+import androidx.annotation.Nullable;
 
 import java.io.UnsupportedEncodingException;
 

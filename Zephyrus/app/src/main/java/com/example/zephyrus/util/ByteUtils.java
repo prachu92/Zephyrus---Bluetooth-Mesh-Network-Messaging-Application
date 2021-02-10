@@ -1,4 +1,4 @@
-package com.example.zephyrus.Util;
+package com.example.zephyrus.util;
 
 public class ByteUtils {
     public static byte[] reverse(byte[] value) {
