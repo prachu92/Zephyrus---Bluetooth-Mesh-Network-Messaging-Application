@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools">
+
+    <LinearLayout
+        android:layout_height="match_parent"
+        android:layout_width="match_parent"
+        android:orientation="vertical"
+        android:background="@drawable/background_color"
+        tools:context=".LoginActivity">
+
+    <ImageView
+        android:id="@+id/logo"
+        android:layout_width="300dp"
+        android:layout_height="120dp"
+        android:src="@drawable/Zephyrus_Logo"
+        android:contentDescription="Zephyrus Logo"
+        android:scaleType="fitXY"
+        android:layout_gravity="center_horizontal"/>
+
+    </LinearLayout>
+
+</layout>

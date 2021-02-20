@@ -25,6 +25,7 @@ import android.os.Bundle;
 import com.example.zephyrus.client.ClientActivity;
 import com.example.zephyrus.databinding.ActivityMainBinding;
 import com.example.zephyrus.server.ServerActivity;
+import com.example.zephyrus.login.LoginActivity;
 
 public class MainActivity extends AppCompatActivity {
     @Override
