@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <layout
     xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools">
 
     <LinearLayout
@@ -14,10 +15,53 @@
         android:id="@+id/logo"
         android:layout_width="300dp"
         android:layout_height="120dp"
-        android:src="@drawable/Zephyrus_Logo"
+        android:src="@drawable/applogo"
         android:contentDescription="Zephyrus Logo"
         android:scaleType="fitXY"
         android:layout_gravity="center_horizontal"/>
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Login"
+            android:textSize="30dp"
+            android:textStyle="bold"
+            android:textColor="#000"
+            android:layout_marginTop="15dp"
+            />
+
+<!--        <com.rengwuxian.materialedittext.MaterialEditText-->
+<!--            android:layout_width="match_parent"-->
+<!--            android:layout_height="wrap_content"-->
+<!--            android:id="@+id/username"-->
+<!--            android:inputType="textEmail"-->
+<!--            android:layout_marginTop="20dp"-->
+<!--            app:met_floatingLabel="highlight"-->
+<!--            android:hint="Username"-->
+<!--            />-->
+
+<!--        <com.rengwuxian.materialedittext.MaterialEditText-->
+<!--            android:layout_width="match_parent"-->
+<!--            android:layout_height="wrap_content"-->
+<!--            android:id="@+id/password"-->
+<!--            android:inputType="textPassword"-->
+<!--            android:layout_marginTop="20dp"-->
+<!--            app:met_floatingLabel="highlight"-->
+<!--            android:hint="Password"-->
+<!--            />-->
+
+        <Button
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="login"
+            android:id="@+id/bttn_login"
+            android:background="#D0D0D0"
+            android:textColor="#000"
+            android:layout_marginTop="300dp"
+            />
+
+
+
 
     </LinearLayout>
 
