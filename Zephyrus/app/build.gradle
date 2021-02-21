@@ -47,5 +47,7 @@ dependencies {
     //app dependencies for biometric sensor
     implementation 'androidx.biometric:biometric:1.0.1'
     //For @Nullable -- Utils Files
-    compile 'com.android.support:support-annotations:+'
+    implementation 'com.android.support:support-annotations:+'
+    //import to edit text for UI
+    implementation 'com.rengwuxian.materialedittext:library:2.1.4'
 }
