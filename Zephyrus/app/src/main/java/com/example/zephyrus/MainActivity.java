@@ -64,7 +64,13 @@ public class MainActivity extends AppCompatActivity {
         //get uuid
         Context context = getApplication();
         TelephonyManager tManager = (TelephonyManager)getSystemService(Context.TELEPHONY_SERVICE);
-        String uuid = tManager.getDeviceId();
+        
+       //fetches the user's device id
+       //getDeviceid() -- deprecated
+       // String uuid = tManager.getDeviceId();
+        
+        //randomly generated UUID
+        String uuid = UUID.randomUUID().toString();
         int duration = Toast.LENGTH_SHORT;
 
         Toast toast = Toast.makeText(context, uuid, duration);
