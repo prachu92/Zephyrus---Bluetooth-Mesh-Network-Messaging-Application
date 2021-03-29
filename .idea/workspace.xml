@@ -1,16 +1,59 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
+  <component name="AndroidLayouts">
+    <shared>
+      <config />
+    </shared>
+  </component>
   <component name="AutoImportSettings">
     <option name="autoReloadType" value="NONE" />
   </component>
+  <component name="BranchesTreeState">
+    <expand>
+      <path>
+        <item name="ROOT" type="e8cecc67:BranchNodeDescriptor" />
+        <item name="LOCAL_ROOT" type="e8cecc67:BranchNodeDescriptor" />
+      </path>
+      <path>
+        <item name="ROOT" type="e8cecc67:BranchNodeDescriptor" />
+        <item name="REMOTE_ROOT" type="e8cecc67:BranchNodeDescriptor" />
+      </path>
+      <path>
+        <item name="ROOT" type="e8cecc67:BranchNodeDescriptor" />
+        <item name="REMOTE_ROOT" type="e8cecc67:BranchNodeDescriptor" />
+        <item name="GROUP_NODE:origin" type="e8cecc67:BranchNodeDescriptor" />
+      </path>
+    </expand>
+    <select />
+  </component>
   <component name="ChangeListManager">
-    <list default="true" id="c06aad14-06fc-4972-ad6e-6acd8d2c9546" name="Default Changelist" comment="" />
+    <list default="true" id="c06aad14-06fc-4972-ad6e-6acd8d2c9546" name="Default Changelist" comment="">
+      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Zephyrus/.idea/jarRepositories.xml" beforeDir="false" afterPath="$PROJECT_DIR$/Zephyrus/.idea/jarRepositories.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Zephyrus/app/build.gradle" beforeDir="false" afterPath="$PROJECT_DIR$/Zephyrus/app/build.gradle" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Zephyrus/app/src/main/java/com/example/zephyrus/MainActivity.java" beforeDir="false" afterPath="$PROJECT_DIR$/Zephyrus/app/src/main/java/com/example/zephyrus/MainActivity.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Zephyrus/app/src/main/res/layout/activity_main.xml" beforeDir="false" afterPath="$PROJECT_DIR$/Zephyrus/app/src/main/res/layout/activity_main.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Zephyrus/build.gradle" beforeDir="false" afterPath="$PROJECT_DIR$/Zephyrus/build.gradle" afterDir="false" />
+    </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
     <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
     <option name="LAST_RESOLUTION" value="IGNORE" />
   </component>
+  <component name="ExecutionTargetManager" SELECTED_TARGET="device_and_snapshot_combo_box_target[]" />
+  <component name="FileTemplateManagerImpl">
+    <option name="RECENT_TEMPLATES">
+      <list>
+        <option value="Class" />
+      </list>
+    </option>
+  </component>
   <component name="Git.Settings">
+    <option name="RECENT_BRANCH_BY_REPOSITORY">
+      <map>
+        <entry key="$PROJECT_DIR$" value="master" />
+      </map>
+    </option>
     <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$" />
   </component>
   <component name="ProjectId" id="1mfhInXqkSTLomygscMPTBNyAgZ" />
@@ -21,8 +64,35 @@
   <component name="PropertiesComponent">
     <property name="RunOnceActivity.OpenProjectViewOnStart" value="true" />
     <property name="RunOnceActivity.ShowReadmeOnStart" value="true" />
-    <property name="last_opened_file_path" value="$PROJECT_DIR$" />
+    <property name="last_opened_file_path" value="$PROJECT_DIR$/Zephyrus" />
+    <property name="project.structure.last.edited" value="Project" />
+    <property name="project.structure.proportion" value="0.0" />
+    <property name="project.structure.side.proportion" value="0.0" />
     <property name="settings.editor.selected.configurable" value="AndroidSdkUpdater" />
+  </component>
+  <component name="RunManager">
+    <configuration name="C:/Users/prach/Desktop/Final Masters Project/Zephyrus/Zephyrus---Bluetooth-Mesh-Network-Messaging-Application/Zephyrus/build.gradle" type="GradleRunConfiguration" factoryName="Gradle" temporary="true">
+      <ExternalSystemSettings>
+        <option name="executionName" />
+        <option name="externalProjectPath" value="$PROJECT_DIR$/Zephyrus/build.gradle" />
+        <option name="externalSystemIdString" value="GRADLE" />
+        <option name="scriptParameters" />
+        <option name="taskDescriptions">
+          <list />
+        </option>
+        <option name="taskNames">
+          <list />
+        </option>
+        <option name="vmOptions" />
+      </ExternalSystemSettings>
+      <GradleScriptDebugEnabled>true</GradleScriptDebugEnabled>
+      <method v="2" />
+    </configuration>
+    <recent_temporary>
+      <list>
+        <item itemvalue="Gradle.C:/Users/prach/Desktop/Final Masters Project/Zephyrus/Zephyrus---Bluetooth-Mesh-Network-Messaging-Application/Zephyrus/build.gradle" />
+      </list>
+    </recent_temporary>
   </component>
   <component name="SvnConfiguration">
     <configuration />
@@ -36,5 +106,67 @@
       <updated>1609890475574</updated>
     </task>
     <servers />
+  </component>
+  <component name="Vcs.Log.Tabs.Properties">
+    <option name="TAB_STATES">
+      <map>
+        <entry key="MAIN">
+          <value>
+            <State />
+          </value>
+        </entry>
+      </map>
+    </option>
+    <option name="oldMeFiltersMigrated" value="true" />
+  </component>
+  <component name="WindowStateProjectService">
+    <state x="291" y="95" key="#Project_Structure" timestamp="1612719326622">
+      <screen x="0" y="0" width="1620" height="1040" />
+    </state>
+    <state x="291" y="95" key="#Project_Structure/0.0.1620.1040@0.0.1620.1040" timestamp="1612719326622" />
+    <state x="93" y="93" width="1350" height="638" key="AVDManager" timestamp="1610063563836">
+      <screen x="0" y="0" width="1536" height="824" />
+    </state>
+    <state x="93" y="93" width="1350" height="638" key="AVDManager/0.0.1536.824@0.0.1536.824" timestamp="1610063563836" />
+    <state x="591" y="275" key="FileChooserDialogImpl" timestamp="1612719355553">
+      <screen x="0" y="0" width="1620" height="1040" />
+    </state>
+    <state x="591" y="275" key="FileChooserDialogImpl/0.0.1620.1040@0.0.1620.1040" timestamp="1612719355553" />
+    <state x="740" y="274" key="FileChooserDialogImpl" timestamp="1612719835976">
+      <screen x="0" y="0" width="1920" height="1040" />
+    </state>
+    <state x="740" y="274" key="FileChooserDialogImpl/0.0.1920.1040@0.0.1920.1040" timestamp="1612719835976" />
+    <state width="937" height="194" key="GridCell.Tab.0.bottom" timestamp="1612719841048">
+      <screen x="0" y="0" width="1920" height="1040" />
+    </state>
+    <state width="745" height="210" key="GridCell.Tab.0.bottom/0.0.1536.824@0.0.1536.824" timestamp="1610063563763" />
+    <state width="937" height="194" key="GridCell.Tab.0.bottom/0.0.1920.1040@0.0.1920.1040" timestamp="1612719841048" />
+    <state width="937" height="194" key="GridCell.Tab.0.center" timestamp="1612719841047">
+      <screen x="0" y="0" width="1920" height="1040" />
+    </state>
+    <state width="745" height="210" key="GridCell.Tab.0.center/0.0.1536.824@0.0.1536.824" timestamp="1610063563763" />
+    <state width="937" height="194" key="GridCell.Tab.0.center/0.0.1920.1040@0.0.1920.1040" timestamp="1612719841047" />
+    <state width="937" height="194" key="GridCell.Tab.0.left" timestamp="1612719841047">
+      <screen x="0" y="0" width="1920" height="1040" />
+    </state>
+    <state width="745" height="210" key="GridCell.Tab.0.left/0.0.1536.824@0.0.1536.824" timestamp="1610063563763" />
+    <state width="937" height="194" key="GridCell.Tab.0.left/0.0.1920.1040@0.0.1920.1040" timestamp="1612719841047" />
+    <state width="937" height="194" key="GridCell.Tab.0.right" timestamp="1612719841047">
+      <screen x="0" y="0" width="1920" height="1040" />
+    </state>
+    <state width="745" height="210" key="GridCell.Tab.0.right/0.0.1536.824@0.0.1536.824" timestamp="1610063563763" />
+    <state width="937" height="194" key="GridCell.Tab.0.right/0.0.1920.1040@0.0.1920.1040" timestamp="1612719841047" />
+    <state x="277" y="57" key="SettingsEditor" timestamp="1610063557924">
+      <screen x="0" y="0" width="1536" height="824" />
+    </state>
+    <state x="277" y="57" key="SettingsEditor/0.0.1536.824@0.0.1536.824" timestamp="1610063557924" />
+    <state x="474" y="145" width="588" height="534" key="find.popup" timestamp="1610062351102">
+      <screen x="0" y="0" width="1536" height="824" />
+    </state>
+    <state x="474" y="145" width="588" height="534" key="find.popup/0.0.1536.824@0.0.1536.824" timestamp="1610062351102" />
+    <state x="467" y="240" key="run.anything.popup" timestamp="1612718198544">
+      <screen x="0" y="0" width="1620" height="1040" />
+    </state>
+    <state x="467" y="240" key="run.anything.popup/0.0.1620.1040@0.0.1620.1040" timestamp="1612718198544" />
   </component>
 </project>
