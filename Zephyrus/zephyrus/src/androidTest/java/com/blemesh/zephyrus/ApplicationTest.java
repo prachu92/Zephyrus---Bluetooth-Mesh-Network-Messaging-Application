@@ -1,4 +1,4 @@
-package com.blemesh.singlehop;
+package com.blemesh.zephyrus;
 
 import android.app.Application;
 import android.test.ApplicationTestCase;
