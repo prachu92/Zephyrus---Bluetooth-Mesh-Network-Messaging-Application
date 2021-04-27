@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+    <item
+        android:id="@+id/action_switch"
+        android:orderInCategory="100"
+        android:icon="@drawable/ic_menu_send"
+        android:title="@string/service_switch_start"
+        app:showAsAction="never" />
+
+    <item
+        android:id="@+id/action_view_logs"
+        android:orderInCategory="400"
+        android:title="@string/view_logs"
+        app:showAsAction="never" />
+</menu>
