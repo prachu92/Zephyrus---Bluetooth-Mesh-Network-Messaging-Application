@@ -1,34 +1,45 @@
 <resources>
-    <string name="app_name">zephyrus</string>
+    <string name="app_name">MeshMessager</string>
 
-    <!-- MainActivity -->
-    <string name="receive">Receive</string>
-    <string name="sending_quote">Sending Quote</string>
-    <string name="discovering">Discovering</string>
-    <string name="both_mode">Both Send and Receive</string>
-    <string name="as_name">as \'%1$s\'</string>
-    <string name="receiving_quote">Receiving Quote</string>
-    <string name="quote_received">Quote Received</string>
-    <string name="ok">OK</string>
-    <string name="quote_and_author">\'%1$s\'</string>
-    <string name="quote_sent">Quote Sent</string>
+    <string name="navigation_drawer_open">Open navigation drawer</string>
+    <string name="navigation_drawer_close">Close navigation drawer</string>
+
+    <string name="service_switch_start">Start Mesh</string>
+    <string name="service_switch_stop">Stop Mesh</string>
     <string name="mode_both">Both</string>
     <string name="mode_scan">Scan Only</string>
     <string name="mode_advertise">Advertise Only</string>
 
-    <!-- WelcomeFragment -->
-    <string name="hello">hello</string>
-    <string name="user_alias_hint">My Name</string>
-    <string name="choose_a_name">choose a name</string>
-
-    <!-- WritingFragment -->
-    <string name="quote_placeholder">And the end of all our exploring will be to arrive where we started and know the place for the first time.</string>
-    <string name="author_placeholder">Thomas Stearns Eliot</string>
-    <string name="send">Start</string>
-    <string name="title_activity_advanced_use">AdvancedUseActivity</string>
     <string name="view_logs">View Logs</string>
 
-    <string name="hello_world">Hello world!</string>
-    <string name="action_settings">Settings</string>
+    <!-- WelcomeFragment -->
+    <string name="user_alias_hint">My Name</string>
+    <string name="choose_a_name">Please enter your name</string>
+    <string name="choose_your_interest">Choose Your Interest</string>
+
+    <!-- user_item -->
+    <string name="user_alias">%1$s (%2$s)</string>
+    <string name="user_info">%1$d hops(s), worst rssi in path: -%2$d db</string>
+    <string name="user_list">User_List</string>
+    <string name="online">Online</string>
+    <string name="offline">Offline</string>
+    <string name="peer_status_offline">This user is offline now</string>
+
+
+    <!-- message fragment-->
+    <string name="send">Send</string>
+    <string name="message_entry_hint">Enter Your Message</string>
+
+    <!-- drawer menu-->
+    <string name="ble_mesh_switcher">BLE-Mesh Switcher</string>
+    <string name="bt_on">Bluetooth On</string>
+    <string name="bt_off">Bluetooth Off</string>
+    <string name="bluetooth_switcher">Bluetooth Switcher</string>
+    <string name="change_name">Change Name</string>
+    <string name="change_interest">Change Interest</string>
+    <string name="profile_setting">Profile Setting</string>
+    <string name="share">Share</string>
+    <string name="last_message">last_message is : …</string>
+
 
 </resources>

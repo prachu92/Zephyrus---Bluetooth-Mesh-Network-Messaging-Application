@@ -1,2 +1,2 @@
-include ':MeshMessager', ':zephyrus', ':sdk'
+include ':zephyrus', ':sdk'
 rootProject.name = "Zephyrus"
