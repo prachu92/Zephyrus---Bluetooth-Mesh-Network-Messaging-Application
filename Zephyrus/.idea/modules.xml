@@ -3,7 +3,6 @@
   <component name="ProjectModuleManager">
     <modules>
       <module fileurl="file://$PROJECT_DIR$/.idea/Zephyrus.iml" filepath="$PROJECT_DIR$/.idea/Zephyrus.iml" />
-      <module fileurl="file://$PROJECT_DIR$/.idea/modules/MeshMessager/Zephyrus.MeshMessager.iml" filepath="$PROJECT_DIR$/.idea/modules/MeshMessager/Zephyrus.MeshMessager.iml" />
       <module fileurl="file://$PROJECT_DIR$/.idea/modules/sdk/Zephyrus.sdk.iml" filepath="$PROJECT_DIR$/.idea/modules/sdk/Zephyrus.sdk.iml" />
       <module fileurl="file://$PROJECT_DIR$/.idea/modules/zephyrus/Zephyrus.zephyrus.iml" filepath="$PROJECT_DIR$/.idea/modules/zephyrus/Zephyrus.zephyrus.iml" />
     </modules>
