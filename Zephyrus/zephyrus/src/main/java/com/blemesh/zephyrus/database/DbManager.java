@@ -178,8 +178,8 @@ public class DbManager{
         return;
     }
 
-    public Cursor getChatMessages(String macAddress){
-        String[] selectionArgs = {macAddress, macAddress};
+    public Cursor getChatMessages(String alias){
+        String[] selectionArgs = {alias, alias};
         String sortOrder = MessageTable.COLUMN_NAME_MESSAGE_TIME + " DESC";
 
         return mContentResolver.query(MeshMessagerContentProvider.MESSAGE_URI,

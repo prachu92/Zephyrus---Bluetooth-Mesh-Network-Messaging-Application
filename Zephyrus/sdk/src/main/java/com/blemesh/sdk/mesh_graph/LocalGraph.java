@@ -361,7 +361,7 @@ public class LocalGraph extends PeersGraph {
         if(shortestPath.size() == 1)
             return "";
         int rssiMetric = Shortest_Path_Info_Map.get(desc).getRssiMetricQueue().peek();
-        String shortest_path = "desc:" + desc + " metric:" + rssiMetric + " wrost rssi:" + Shortest_Path_Info_Map.get(desc).getRssi() + " ";
+        String shortest_path = "destination:" + desc + " metric:" + rssiMetric + "rssi:" + Shortest_Path_Info_Map.get(desc).getRssi() + " ";
         while(!shortestPath.isEmpty()){
             shortest_path+=shortestPath.peek();
             shortestPath.pop();
